@@ -992,7 +992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: Alphabetize
   ModuleDisplayName: Alphabetize
-  RequiresTimerVisibility: 1
+  RequiresTimerVisibility: 0
 --- !u!114 &114655051329081288
 MonoBehaviour:
   m_ObjectHideFlags: 1
