@@ -76,125 +76,140 @@ public class AlphabetizeScript : MonoBehaviour
     {
 		TheFiber.text = "";
         List<int> NumericalValue = new List<int>();
-        for (int i = 0; i < 16; i++) 
+        for (int i = 0; i < 1; i++) 
 		{
 			if (Bomb.GetIndicators().Count() == 2)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(0);
+					Debug.LogFormat("Table 1 is true.");
 				}
 			}
 
 			if (Bomb.GetPortCount() == 3)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(1);
+					Debug.LogFormat("Table 2 is true.");
 				}
 			}
 
 			if (Bomb.IsIndicatorPresent("CAR"))
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(2);
+					Debug.LogFormat("Table 3 is true.");
 				}
 			}
 
 			if (Bomb.GetStrikes() % 2 == 0)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(3);
+					Debug.LogFormat("Table 4 is true.");
 				}
 			}
 
 			if (Bomb.GetBatteryCount() % 2 == 0)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(4);
+					Debug.LogFormat("Table 5 is true.");
 				}
 			}
 
 			if (Bomb.IsIndicatorPresent("MSA"))
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(5);
+					Debug.LogFormat("Table 6 is true.");
 				}
 			}
 
 			if (Bomb.GetSerialNumberLetters().First() == 'B' || Bomb.GetSerialNumberLetters().First() == 'C' || Bomb.GetSerialNumberLetters().First() == 'D' || Bomb.GetSerialNumberLetters().First() == 'F' || Bomb.GetSerialNumberLetters().First() == 'G' || Bomb.GetSerialNumberLetters().First() == 'H' || Bomb.GetSerialNumberLetters().First() == 'J' || Bomb.GetSerialNumberLetters().First() == 'K' || Bomb.GetSerialNumberLetters().First() == 'L' || Bomb.GetSerialNumberLetters().First() == 'M' || Bomb.GetSerialNumberLetters().First() == 'N' || Bomb.GetSerialNumberLetters().First() == 'P' || Bomb.GetSerialNumberLetters().First() == 'Q' || Bomb.GetSerialNumberLetters().First() == 'R' || Bomb.GetSerialNumberLetters().First() == 'S' || Bomb.GetSerialNumberLetters().First() == 'T' || Bomb.GetSerialNumberLetters().First() == 'V' || Bomb.GetSerialNumberLetters().First() == 'W' || Bomb.GetSerialNumberLetters().First() == 'X' || Bomb.GetSerialNumberLetters().First() == 'Y' || Bomb.GetSerialNumberLetters().First() == 'Z')
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(6);
+					Debug.LogFormat("Table 7 is true.");
 				}
 			}
 
 			if (Bomb.GetPortPlates().Count() == 2)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(7);
+					Debug.LogFormat("Table 8 is true.");
 				}
 			}
 
 			if (Bomb.GetBatteryCount() % 2 == 1)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(8);
+					Debug.LogFormat("Table 9 is true.");
 				}
 			}
 
 			if (Bomb.GetSerialNumberNumbers().Count() >= 3)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(9);
+					Debug.LogFormat("Table 10 is true.");
 				}
 			}
 
 			if (Bomb.GetIndicators().Count() > 2)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(10);
+					Debug.LogFormat("Table 11 is true.");
 				}
 			}
 
 			if (Bomb.GetSolvedModuleNames().Count() > 3)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(11);
+					Debug.LogFormat("Table 12 is true.");
 				}
 			}
 
 			if (Bomb.GetSerialNumber().Contains("AEIOU") != true)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(12);
+					Debug.LogFormat("Table 13 is true.");
 				}
 			}
 
 			if (Bomb.GetModuleNames().Count() > 30)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(13);
+					Debug.LogFormat("Table 14 is true.");
 				}
 			}
 
 			if (Bomb.GetIndicators().Count() < 4)
 			{
-				if (i < 16)
+				if (i < 1)
 				{
 					NumericalValue.Add(14);
+					Debug.LogFormat("Table 15 is true.");
 				}
 			}
 		}
@@ -204,7 +219,7 @@ public class AlphabetizeScript : MonoBehaviour
 		if ((SilverLine.Count() % 2) == 0)
 		{
 			TheCopperValue = 15;
-			Debug.LogFormat("Hooray");
+			Debug.LogFormat("The string used is the English Alphabet.");
 		}
 		
 		else if ((SilverLine.Count() % 2) == 1)
@@ -248,6 +263,8 @@ public class AlphabetizeScript : MonoBehaviour
 			{
 				TheCopperValue = 7;
 			}
+			
+			Debug.LogFormat("The string used is in Table " + (SilverLine[TheCopperValue] + 1).ToString());
 		}
 		
 	}
@@ -283,6 +300,21 @@ public class AlphabetizeScript : MonoBehaviour
 						TheLetter.text = TheSequence[TheCopperValue][TheFoil];
 					}
 				}
+				
+				if (TheCopperValue != 15 && TheLetter.text == TheSequence[SilverLine[TheCopperValue]][TheFoil])
+				{
+					Debug.LogFormat("Letter " + TheLetter.text.ToString() + " matches the letter in the current stage");
+				}
+				
+				else if (TheCopperValue == 15 && TheLetter.text == TheSequence[TheCopperValue][TheFoil])
+				{
+					Debug.LogFormat("Letter " + TheLetter.text.ToString() + " matches the letter in the current stage");
+				}
+				
+				else
+				{
+					Debug.LogFormat("Letter " + TheLetter.text.ToString() + " does not match the letter in the current stage");
+				}
 			}
 		}
 
@@ -302,6 +334,7 @@ public class AlphabetizeScript : MonoBehaviour
 					else
 					{
 						StartCoroutine(Again());
+						Debug.LogFormat("Wrong input. Try again.");
 					}
 				}
 				
@@ -316,6 +349,7 @@ public class AlphabetizeScript : MonoBehaviour
 					else
 					{
 						StartCoroutine(Again());
+						Debug.LogFormat("Wrong input. Try again.");
 					}
 				}
 			}
@@ -337,6 +371,7 @@ public class AlphabetizeScript : MonoBehaviour
 					else
 					{
 						StartCoroutine(Again());
+						Debug.LogFormat("Wrong input. Try again.");
 					}
 				}
 				
@@ -351,6 +386,7 @@ public class AlphabetizeScript : MonoBehaviour
 					else
 					{
 						StartCoroutine(Again());
+						Debug.LogFormat("Wrong input. Try again.");
 					}
 				}
 			}
