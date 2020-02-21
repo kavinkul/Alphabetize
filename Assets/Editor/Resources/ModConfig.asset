@@ -18,6 +18,6 @@ MonoBehaviour:
     - BigCrunch22\r\n\r\nRecreation of the deleted module created by devstar(?)\n\r\nIf
     someone wants to add TP Support/Logging/Anything useful, you have my approval
     for that.\r\n"
-  version: 1.4
+  version: 1.5
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 2dce849f1dc986942a43baa98398f529, type: 3}
