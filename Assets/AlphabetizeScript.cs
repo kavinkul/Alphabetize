@@ -186,7 +186,7 @@ public class AlphabetizeScript : MonoBehaviour
 				}
 			}
 
-			if (Bomb.GetSerialNumber().Contains("AEIOU") != true)
+			if ((Bomb.GetSerialNumber().Contains("A") || Bomb.GetSerialNumber().Contains("E") || Bomb.GetSerialNumber().Contains("I") || Bomb.GetSerialNumber().Contains("O") || Bomb.GetSerialNumber().Contains("U")) != true)
 			{
 				if (i < 1)
 				{
