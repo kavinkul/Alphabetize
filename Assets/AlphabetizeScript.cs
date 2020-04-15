@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using KModkit;
 
@@ -269,183 +270,226 @@ public class AlphabetizeScript : MonoBehaviour
 		
 	}
 	
-		void Randomizer()
+	void Randomizer()
+	{
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		if (TheFoil == 26)
 		{
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			if (TheFoil == 26)
+			StartCoroutine(TheSolved());
+		}
+		
+		else if (TheFoil != 26)
+		{
+			int Choco = 0;
+			Choco = UnityEngine.Random.Range(0,3);
+			
+			if (Choco != 0)
 			{
-				StartCoroutine(TheSolved());
+				Supper = UnityEngine.Random.Range(0, Alphabreak.Count());
+				TheLetter.text = Alphabreak[Supper];
 			}
 			
-			else if (TheFoil != 26)
+			else if (Choco == 0)
 			{
-				int Choco = 0;
-				Choco = UnityEngine.Random.Range(0,3);
-				
-				if (Choco != 0)
+				if (TheCopperValue != 15)
 				{
-					Supper = UnityEngine.Random.Range(0, Alphabreak.Count());
-					TheLetter.text = Alphabreak[Supper];
+					TheLetter.text = TheSequence[SilverLine[TheCopperValue]][TheFoil];
 				}
 				
-				else if (Choco == 0)
+				else if (TheCopperValue == 15)
 				{
-					if (TheCopperValue != 15)
-					{
-						TheLetter.text = TheSequence[SilverLine[TheCopperValue]][TheFoil];
-					}
-					
-					else if (TheCopperValue == 15)
-					{
-						TheLetter.text = TheSequence[TheCopperValue][TheFoil];
-					}
+					TheLetter.text = TheSequence[TheCopperValue][TheFoil];
 				}
-				
-				if ((TheCopperValue != 15 && TheLetter.text == TheSequence[SilverLine[TheCopperValue]][TheFoil]) || (TheCopperValue == 15 && TheLetter.text == TheSequence[TheCopperValue][TheFoil]))
+			}
+			
+			if ((TheCopperValue != 15 && TheLetter.text == TheSequence[SilverLine[TheCopperValue]][TheFoil]) || (TheCopperValue == 15 && TheLetter.text == TheSequence[TheCopperValue][TheFoil]))
+			{
+				Debug.LogFormat("[Alphabetize #{0}] Letter " + TheLetter.text.ToString() + " matches the letter in the current stage.", moduleId);
+			}
+			
+			else
+			{
+				Debug.LogFormat("[Alphabetize #{0}] Letter " + TheLetter.text.ToString() + " does not match the letter in the current stage.", moduleId);
+			}
+		}
+	}
+
+	void PressLeftQuad()
+	{
+		if (Computer == 0 && Playable == true)
+		{
+			LeftQuad.AddInteractionPunch(0.2f);
+			if (TheCopperValue != 15)
+			{
+				if (TheSequence[SilverLine[TheCopperValue]][TheFoil] != TheLetter.text)
 				{
-					Debug.LogFormat("[Alphabetize #{0}] Letter " + TheLetter.text.ToString() + " matches the letter in the current stage.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] You pressed left. Correct.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
+					TheFoil = TheFoil + 1;
+					Randomizer();
 				}
 				
 				else
 				{
-					Debug.LogFormat("[Alphabetize #{0}] Letter " + TheLetter.text.ToString() + " does not match the letter in the current stage.", moduleId);
+					StartCoroutine(Again());
+					Debug.LogFormat("[Alphabetize #{0}] You pressed left. Incorrect.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
 				}
 			}
-		}
-
-        void PressLeftQuad()
-        {
-			if (Computer == 0 && Playable == true)
+			
+			else if (TheCopperValue == 15)
 			{
-				LeftQuad.AddInteractionPunch(0.2f);
-				if (TheCopperValue != 15)
+				if (TheSequence[TheCopperValue][TheFoil] != TheLetter.text)
 				{
-					if (TheSequence[SilverLine[TheCopperValue]][TheFoil] != TheLetter.text)
-					{
-						Debug.LogFormat("[Alphabetize #{0}] You pressed left. Correct.", moduleId);
-						TheFoil = TheFoil + 1;
-						Randomizer();
-					}
-					
-					else
-					{
-						StartCoroutine(Again());
-						Debug.LogFormat("[Alphabetize #{0}] You pressed left. Incorrect.", moduleId);
-					}
+					Debug.LogFormat("[Alphabetize #{0}] You pressed left. Correct.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
+					TheFoil = TheFoil + 1;
+					Randomizer();
 				}
 				
-				else if (TheCopperValue == 15)
+				else
 				{
-					if (TheSequence[TheCopperValue][TheFoil] != TheLetter.text)
-					{
-						Debug.LogFormat("[Alphabetize #{0}] You pressed left. Correct.", moduleId);
-						TheFoil = TheFoil + 1;
-						Randomizer();
-					}
-					
-					else
-					{
-						StartCoroutine(Again());
-						Debug.LogFormat("[Alphabetize #{0}] You pressed left. Incorrect.", moduleId);
-					}
+					StartCoroutine(Again());
+					Debug.LogFormat("[Alphabetize #{0}] You pressed left. Incorrect.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
 				}
 			}
-        }
+		}
+	}
 
-        void PressRightQuad()
-        {
-			if (Computer == 0 && Playable == true)
+	void PressRightQuad()
+	{
+		if (Computer == 0 && Playable == true)
+		{
+			RightQuad.AddInteractionPunch(0.2f);
+			if (TheCopperValue != 15)
 			{
-				RightQuad.AddInteractionPunch(0.2f);
-				if (TheCopperValue != 15)
+				if (TheSequence[SilverLine[TheCopperValue]][TheFoil] == TheLetter.text)
 				{
-					if (TheSequence[SilverLine[TheCopperValue]][TheFoil] == TheLetter.text)
-					{
-						Debug.LogFormat("[Alphabetize #{0}] You pressed right. Correct.", moduleId);
-						TheFoil = TheFoil + 1;
-						Randomizer();
-					}
-					
-					else
-					{
-						StartCoroutine(Again());
-						Debug.LogFormat("[Alphabetize #{0}] You pressed right. Incorrect.", moduleId);
-					}
+					Debug.LogFormat("[Alphabetize #{0}] You pressed right. Correct.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
+					TheFoil = TheFoil + 1;
+					Randomizer();
 				}
 				
-				else if (TheCopperValue == 15)
+				else
 				{
-					if (TheSequence[TheCopperValue][TheFoil] == TheLetter.text)
-					{
-						Debug.LogFormat("[Alphabetize #{0}] You pressed right. Correct.", moduleId);
-						TheFoil = TheFoil + 1;
-						Randomizer();
-					}
-					
-					else
-					{
-						StartCoroutine(Again());
-						Debug.LogFormat("[Alphabetize #{0}] You pressed right. Incorrect.", moduleId);
-					}
+					StartCoroutine(Again());
+					Debug.LogFormat("[Alphabetize #{0}] You pressed right. Incorrect.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
 				}
 			}
-        }
-		
-		IEnumerator TheSolved()
-		{
-			Computer = 1;
-			TheLetter.text = "";
-			TheTetra.text = "D";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.2f);
-			TheTetra.text = "DO";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.2f);
-			TheTetra.text = "DON";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.2f);
-			TheTetra.text = "DONE";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.2f);
-			TheTetra.text = "DONE!";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.5f);
-			Module.HandlePass();
-			Audio.PlaySoundAtTransform(SFX[0].name, transform);
-			Debug.LogFormat("[Alphabetize #{0}] Module is done.", moduleId);
+			
+			else if (TheCopperValue == 15)
+			{
+				if (TheSequence[TheCopperValue][TheFoil] == TheLetter.text)
+				{
+					Debug.LogFormat("[Alphabetize #{0}] You pressed right. Correct.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
+					TheFoil = TheFoil + 1;
+					Randomizer();
+				}
+				
+				else
+				{
+					StartCoroutine(Again());
+					Debug.LogFormat("[Alphabetize #{0}] You pressed right. Incorrect.", moduleId);
+					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
+				}
+			}
 		}
+	}
 		
-		IEnumerator Again()
-		{
-			Computer = 1;
-			TheLetter.text = "";
-			TheTetra.text = "N";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.2f);
-			TheTetra.text = "NO";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.2f);
-			TheTetra.text = "NOP";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.2f);
-			TheTetra.text = "NOPE";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(0.2f);
-			TheTetra.text = "NOPE!";
-			Audio.PlaySoundAtTransform(SFX[1].name, transform);
-			yield return new WaitForSeconds(1f);
-			TheTetra.text = "";
-			Module.HandleStrike();
-			Reset();
-			ActivateModule();
-			Randomizer();
-			Computer = 0;
-		}
+	IEnumerator TheSolved()
+	{
+		StrikingBool = true;
+		Computer = 1;
+		TheLetter.text = "";
+		TheTetra.text = "D";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.2f);
+		TheTetra.text = "DO";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.2f);
+		TheTetra.text = "DON";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.2f);
+		TheTetra.text = "DONE";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.2f);
+		TheTetra.text = "DONE!";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.5f);
+		Module.HandlePass();
+		Audio.PlaySoundAtTransform(SFX[0].name, transform);
+		Debug.LogFormat("[Alphabetize #{0}] Module is done.", moduleId);
+	}
 		
-		void Reset()
-		{
+	IEnumerator Again()
+	{
+		StrikingBool = true;
+		Computer = 1;
+		TheLetter.text = "";
+		TheTetra.text = "N";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.2f);
+		TheTetra.text = "NO";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.2f);
+		TheTetra.text = "NOP";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.2f);
+		TheTetra.text = "NOPE";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(0.2f);
+		TheTetra.text = "NOPE!";
+		Audio.PlaySoundAtTransform(SFX[1].name, transform);
+		yield return new WaitForSeconds(1f);
+		TheTetra.text = "";
+		Module.HandleStrike();
+		Reset();
+		ActivateModule();
+		Randomizer();
+		Computer = 0;
+		StrikingBool = false;
+	}
+		
+	void Reset()
+	{
 		TheCopperValue = 0;
 		TheFoil = 0;
 		Supper = 0;
+	}
+	
+	//twitch plays
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"Use the command !{0} left/right to press the corresponding side on the module.";
+    #pragma warning restore 414
+	
+	bool StrikingBool = false;
+	
+	IEnumerator ProcessTwitchCommand(string command)
+	{
+		if (Regex.IsMatch(command, @"^\s*right\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(command, @"^\s*r\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+		{
+			yield return null;
+			if (StrikingBool == true)
+			{
+				yield return "sendtochaterror The module is not showing a letter. The command was not processed.";
+				yield break;
+			}
+			RightQuad.OnInteract();
 		}
-    }
+		
+		if (Regex.IsMatch(command, @"^\s*left\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(command, @"^\s*l\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+		{
+			yield return null;
+			if (StrikingBool == true)
+			{
+				yield return "sendtochaterror The module is not showing a letter. The command was not processed.";
+				yield break;
+			}
+			LeftQuad.OnInteract();
+		}
+	}
+}
