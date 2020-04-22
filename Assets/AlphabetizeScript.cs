@@ -327,8 +327,8 @@ public class AlphabetizeScript : MonoBehaviour
 				if (TheSequence[SilverLine[TheCopperValue]][TheFoil] != TheLetter.text)
 				{
 					Debug.LogFormat("[Alphabetize #{0}] You pressed left. Correct.", moduleId);
-					Debug.LogFormat("[Alphabetize #{0}] ", moduleId);
 					Debug.LogFormat("[Alphabetize #{0}] -----------------------------", moduleId);
+					TheFoil = TheFoil + 1;
 					Randomizer();
 				}
 				
