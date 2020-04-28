@@ -531,7 +531,7 @@ public class AlphabetizeScript : MonoBehaviour
 				yield break;
 			}
 			StartCoroutine(UpdateVariables());
-			yield return "sendtochaterror The rules are now updated.";
+			yield return "sendtochat The rules are now updated.";
 		}
 
 	}
